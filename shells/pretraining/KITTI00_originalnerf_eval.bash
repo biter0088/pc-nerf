@@ -1,0 +1,17 @@
+python eval_kitti_render.py \
+  --root_dir ./data/kitti/00/pcd_remove_dynamic \
+  --pose_path ./data/kitti/00/poses.txt \
+  --subnerf_path ./data/preprocessing/kitti00/1151_1200_view/sub_pointcloud/sub_nerf_fine/split_child_nerf2 \
+  --parentnerf_path ./data/preprocessing/kitti00/1151_1200_view/source.pcd \
+  --ckpt_path ./logs/kitti00/1151_1200_view/version_0/checkpoints/best.ckpt \
+  --pcd_path ./logs/kitti00/1151_1200_view/version_0_ \
+  --metrics_path ./logs/kitti00/1151_1200_view/version_0_metric_ \
+  --result_path   ./logs/kitti00/1151_1200_view \
+  --depth_inference_method 1 --test_data_create 0 \
+  --view_pcd_number 0 \
+  --N_samples 4096 --N_importance 8192 --chunk 184320 --perturb 0 --noise_std 0 --L_pos 10 \
+  --feature_size 256 --use_skip --data_start 1150 --data_end 1200 \
+  --sub_nerf_test_num 15333 \
+  --range_delete_x 2 --range_delete_y 1 --range_delete_z 0.5 \
+  --over_height 0.168 --over_low -2 --interest_x 20 --interest_y 20 \
+  --dataset kitti

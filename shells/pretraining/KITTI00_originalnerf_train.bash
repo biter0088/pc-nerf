@@ -1,0 +1,27 @@
+python train_kitti.py \
+  --root_dir ./data/kitti/00/pcd_remove_dynamic \
+  --pose_path ./data/kitti/00/poses.txt \
+  --subnerf_path ./data/preprocessing/kitti00/1151_1200_view/sub_pointcloud/sub_nerf_fine/split_child_nerf2 \
+  --parentnerf_path ./data/preprocessing/kitti00/1151_1200_view/source.pcd \
+  --result_path  ./logs/kitti00/1151_1200_view \
+  --sub_nerf_test_num 15333 \
+  --N_samples 768 --N_importance 1536 --perturb 1 \
+  --noise_std 0 --L_pos 10 --feature_size 256 --use_skip --seed 42 \
+  --batch_size 256 --chunk 262144 --num_epochs 1 --loss_type smoothl1 \
+  --cloud_size_val 4096 --batch_size_val 256 --re_loaddata 1 \
+  --optimizer adam --weight_decay 1e-3 --lr 5e-4 --decay_epochs 1 --decay_step 2 --decay_gamma 0.1 \
+  --exp_name kitti00/1151_1200_view \
+  --visualize 0 \
+  --saveploty_path ./logs/kitti00/1151_1200_view/ploty0 \
+  --saveploty_path_range ./logs/kitti00/1151_1200_view/ploty0_range \
+  --saveploty_path_range_fine ./logs/kitti00/1151_1200_view/ploty0_range_fine \
+  --saveploty_path_child_free ./logs/kitti00/1151_1200_view/ploty0_child_free \
+  --saveploty_path_child_free_fine ./logs/kitti00/1151_1200_view/ploty0_child_free_fine \
+  --saveploty_path_child_depth ./logs/kitti00/1151_1200_view/ploty0_child_depth \
+  --saveploty_path_child_depth_fine ./logs/kitti00/1151_1200_view/ploty0_child_depth_fine \
+  --datasettype kitti_dataload --data_start 1150 --data_end 1200 \
+  --use_child_nerf_divide 0 --use_child_nerf_loss 0 --use_segmentated_sample 0 --segmentated_child_nerf_ratio 0 \
+  --lambda_loss 1 --lambda_loss_fine 1 --lambda_child_free_loss 0  --lambda_child_depth_loss 0 \
+  --range_delete_x 3 --range_delete_y 2 --range_delete_z 1.25 \
+  --surface_expand 0.05 --over_height 0.168 --over_low -2.0 --interest_x 20 --interest_y 20 # \
+  # --ckpt_path ./logs/kitti00/1151_1200_view/version_0/checkpoints/best.ckpt

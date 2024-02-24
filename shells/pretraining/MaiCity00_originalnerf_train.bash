@@ -1,0 +1,27 @@
+python train_kitti.py \
+  --root_dir ./data/maicity/00/pcd \
+  --pose_path ./data/maicity/00/poses.txt \
+  --subnerf_path ./data/preprocessing/maicity00/maicity_00_1/sub_pointcloud/sub_nerf_fine/split_child_nerf2 \
+  --result_path   ./logs/maicity00/maicity_00_1 \
+  --sub_nerf_test_num 5729 \
+  --N_samples 768 --N_importance 1536 --perturb 1 \
+  --noise_std 0 --L_pos 10 --feature_size 256 --use_skip --seed 42 \
+  --batch_size 256 --chunk 262144 --num_epochs 1 --loss_type smoothl1 \
+  --cloud_size_val 4096 --batch_size_val 256 --re_loaddata 0 \
+  --optimizer adam --weight_decay 1e-3 --lr 5e-4 --decay_epochs 1 --decay_step 2 --decay_gamma 0.1 \
+  --exp_name maicity00/maicity_00_1 \
+  --visualize 0 \
+  --saveploty_path ./logs/maicity00/maicity_00_1/ploty0 \
+  --saveploty_path_range ./logs/maicity00/maicity_00_1/ploty0_range \
+  --saveploty_path_range_fine ./logs/maicity00/maicity_00_1/ploty0_range_fine \
+  --saveploty_path_child_free ./logs/maicity00/maicity_00_1/ploty0_child_free \
+  --saveploty_path_child_free_fine ./logs/maicity00/maicity_00_1/ploty0_child_free_fine \
+  --saveploty_path_child_depth ./logs/maicity00/maicity_00_1/ploty0_child_depth \
+  --saveploty_path_child_depth_fine ./logs/maicity00/maicity_00_1/ploty0_child_depth_fine \
+  --datasettype maicity_dataload --data_start 0 --data_end 50 \
+  --use_child_nerf_divide 0 --use_child_nerf_loss 0 --use_segmentated_sample 0 --segmentated_child_nerf_ratio 0 \
+  --lambda_loss 1 --lambda_loss_fine 1 --lambda_child_free_loss 0  --lambda_child_depth_loss 0 \
+  --nerf_length_min -12 --nerf_length_max 61 --nerf_width_min -12 --nerf_width_max 12 --nerf_height_min -2 --nerf_height_max 0.5 \
+  --range_delete_x 2 --range_delete_y 1 --range_delete_z 0.5 \
+  --surface_expand 0.05  # \
+  #--ckpt_path ./logs/maicity00/maicity_00_1/version_1/checkpoints/best.ckpt \  

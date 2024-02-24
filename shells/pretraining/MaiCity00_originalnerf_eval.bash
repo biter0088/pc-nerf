@@ -1,0 +1,17 @@
+python eval_kitti_render.py \
+  --root_dir ./data/maicity/00/pcd \
+  --pose_path ./data/maicity/00/poses.txt \
+  --subnerf_path ./data/preprocessing/maicity00/maicity_00_1/sub_pointcloud/sub_nerf_fine/split_child_nerf2 \
+  --parentnerf_path ./data/preprocessing/maicity00/maicity_00_1/source.pcd \
+  --ckpt_path ./logs/maicity00/maicity_00_1/version_0/checkpoints/best.ckpt \
+  --pcd_path ./logs/maicity00/maicity_00_1/version_0_ \
+  --metrics_path ./logs/maicity00/maicity_00_1/version_0_metric_ \
+  --result_path   ./logs/maicity00/maicity_00_1 \
+  --depth_inference_method 1 --test_data_create 1 \
+  --view_pcd_number 0 \
+  --N_samples 4096 --N_importance 8192 --chunk 184320 --perturb 0 --noise_std 0 --L_pos 10 \
+  --feature_size 256 --use_skip --data_start 0 --data_end 50 \
+  --sub_nerf_test_num 5729 \
+  --nerf_length_min -12 --nerf_length_max 61 --nerf_width_min -12 --nerf_width_max 12 --nerf_height_min -2 --nerf_height_max 0.5 \
+  --range_delete_x 2 --range_delete_y 1 --range_delete_z 0.5 \
+  --dataset maicity
