@@ -22,7 +22,7 @@ Our work has been accepted and the link to the paper's publication is pending.
 An early name for our work was: [PC-NeRF: Parent-Child Neural Radiance Fields under Partial Sensor Data Loss in Autonomous Driving Environments](https://arxiv.org/abs/2310.00874).
 The latest name for our work is: [PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous](https://arxiv.org/abs/2402.09325).
 
-[toc]
+[TOC]
 ## Paper
 
 **The framework for our work:**
