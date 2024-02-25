@@ -1,23 +1,48 @@
-# PC-NeRF: Parent-Child Neural Radiance Fields under Partial Sensor Data Loss in Autonomous Driving Environments
+<p align="center">
+  <h1 align="center"> PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous </h1>
+  <p align="center">
+    <a <strong>Xiuzhong Hu</strong></a>
+    ·
+    <a <strong>Guangming Xiong</strong></a>
+    ·    
+    <a <strong>Zheng Zang</strong></a>
+    ·
+    <a <strong>Peng Jia</strong></a>
+    ·
+    <a <strong>Yuxuan Han</strong></a>        
+    ·
+    <a <strong>Junyi Ma</strong></a>            
+  </p>
+  <p align="center"><strong>Beijing Institute of Technology</strong></a>
+  </h3>
+  <div align="center"></div>
+</p>
 
-[Xiuzhong Hu](https://github.com/biter0088), Guangming Xiong, Zheng Zang, Peng Jia, Yuxuan Han, [Junyi Ma](https://github.com/BIT-MJY)
+Our work has been accepted and the link to the paper's publication is pending.
+An early name for our work was: [PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous Driving Environments](https://arxiv.org/abs/2402.09325).
+The latest name for our work is: [PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous](https://arxiv.org/abs/2402.09325).
 
-For more details please refer to our [paper](https://arxiv.org/abs/2402.09325).
 
 ## Paper
 ```bash
-@misc{hu2023pcnerf,
-      title={PC-NeRF: Parent-Child Neural Radiance Fields under Partial Sensor Data Loss in Autonomous Driving Environments}, 
-      author={Xiuzhong Hu and Guangming Xiong and Zheng Zang and Peng Jia and Yuxuan Han and Junyi Ma},
-      year={2023},
-      eprint={2310.00874},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@article{hu2024pc,
+  title={PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous Driving Environments},
+  author={Hu, Xiuzhong and Xiong, Guangming and Zang, Zheng and Jia, Peng and Han, Yuxuan and Ma, Junyi},
+  year={2024},
+  eprint={2402.09325},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
 }
 ```
-
+The framework for our work:
 <figure>
-  <div align=center><img src="./paper/motivation_figure2.jpg" width="600px" alt="Image Description">
+  <div align=center><img src="./paper/framework.png" width="800px" alt="Image Description">
+  <div align=left><figcaption>Our PC-NeRF framework: (a) The hierarchical spatial partition divides the entire large-scale scene into large blocks, referred to as parent NeRFs. After multi-frame point cloud fusing, ground filtering, and non-ground point cloud clustering, a large block is further divided into point cloud geometric segments represented by a child NeRF. The parent NeRF shares a network with the child NeRFs within it. (b) In the multi-level scene representation, the surface intersections of the LiDAR ray with the parent and child NeRF AABBs and the LiDAR origin are used to divide the entire LiDAR ray into different line segments. The three losses on these line segments concurrently optimize the scene representation at the scene level, segment level, and point level, effectively leveraging sparse LiDAR frames. (c) For depth inference of each LiDAR ray, PC-NeRF searches in the parent NeRF AABB to locate corresponding child NeRF AABBs and then refines its inference in the child NeRF AABBs for higher precision.</figcaption>
+</figure>
+
+The performance of our work:
+<figure>
+  <div align=center><img src="./paper/motivation_figure2.jpg" width="500px" alt="Image Description">
   <div align=left><figcaption>Efficient 3D Reconstruction with PC-NeRF: Adapting to increased LiDAR frame sparsity through minimal training. The scene involves frames 1151-1200 from the KITTI 00 sequence, encompassing diverse elements like the ground, grass, walls, and vehicles. White dots in each subfigure depict individual LiDAR frame positions, and CD gauges 3D reconstruction accuracy, with smaller values indicating superior performance. As the proportion of LiDAR frames for training gradually decreases, signifying increased sparsity, PC-NeRF excels in sparse-to-dense 3D reconstruction, as evident in the last three rows of subfigures. Moreover, utilizing only 33% of LiDAR frames during training demonstrates advantages in both reconstruction quality and time consumption compared to using 50% and 80% of frames, as depicted in the first three rows of subfigures. More details are provided in Sec. IV-C.</figcaption>
 </figure>
 
