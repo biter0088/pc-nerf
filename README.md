@@ -209,7 +209,4 @@ python print_metrics.py
 
 
 ## Acknowledgements
-The following codes have helped us a lot in our work.
-[nerf-pytorch](https://github.com/yenchenlin/nerf-pytorch)
-[ir-mcl ](https://github.com/PRBonn/ir-mcl)
-[shine_mapping](https://github.com/PRBonn/SHINE_mapping)
+The following codes have helped us a lot in our work:[nerf-pytorch](https://github.com/yenchenlin/nerf-pytorch), [ir-mcl ](https://github.com/PRBonn/ir-mcl), [shine_mapping](https://github.com/PRBonn/SHINE_mapping)
