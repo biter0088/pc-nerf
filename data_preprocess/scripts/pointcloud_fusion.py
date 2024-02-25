@@ -50,7 +50,7 @@ def multi_frame_pointcloud_fusion(root_dir, data_start=1,data_end=2,
     pose_save_all =np.ones((0,3))    
     count_train = 0
     for j in range(data_start, data_end):    
-        if((j+1-3)%5!=0): # test set: hold one form every  5 scans
+        if((j+1-3)%5!=0): # test set: hold one form every  5 scans, so train set is the remain
             count_train = count_train + 1
         else:
             continue                  

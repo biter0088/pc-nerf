@@ -19,21 +19,11 @@
 </p>
 
 Our work has been accepted and the link to the paper's publication is pending.
-An early name for our work was: [PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous Driving Environments](https://arxiv.org/abs/2402.09325).
+An early name for our work was: [PC-NeRF: Parent-Child Neural Radiance Fields under Partial Sensor Data Loss in Autonomous Driving Environments](https://arxiv.org/abs/2310.00874).
 The latest name for our work is: [PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous](https://arxiv.org/abs/2402.09325).
 
-
+[toc]
 ## Paper
-```bash
-@article{hu2024pc,
-  title={PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous Driving Environments},
-  author={Hu, Xiuzhong and Xiong, Guangming and Zang, Zheng and Jia, Peng and Han, Yuxuan and Ma, Junyi},
-  year={2024},
-  eprint={2402.09325},
-  archivePrefix={arXiv},
-  primaryClass={cs.CV}
-}
-```
 
 **The framework for our work:**
 <figure>
@@ -48,29 +38,64 @@ The latest name for our work is: [PC-NeRF: Parent-Child Neural Radiance Fields U
 </figure>
 
 
-## 0. Example of Data Preprocessing for the KITTI Dataset
+## Dataset partitioning and data preprocessing
 We use **frame sparsity** to measure the sparsity of LiDAR point cloud data in the temporal dimension. Frame sparsity represents the proportion of the test set (unavailable during training) when dividing the LiDAR dataset into training and test sets. Increased frame sparsity implies fewer LiDAR frames for training and more for model testing, posing heightened challenges across various tasks. For further details, please refer to Sec. IV-A of our [paper](https://arxiv.org/abs/2402.09325).
 
+In our work, we show the results at eight frame sparsities of {20 %, 25 %, 33 %, 50 %, 67 %, 75 %, 80 %, 90 %}. In the following, we demonstrate the process of dataset partitioning and data preprocessing with the frame sparsity of 20% as an example. When the frame sparsity is 20%, it means that one frame every five frames is selected as the test set and the rest is used as the training set.
 
+The frame sparsity setting is reflected in the following three locations:
 
-
-
-
-
+**(1) in data pre-process of train dataset:**
+For example, in lines 52 to 56 of the `data_preprocess/scripts/pointcloud_fusion.py` file.
+```python
+        if((j+1-3)%5!=0): # test set: hold one form every  5 scans, so train set is the remain
+            count_train = count_train + 1
+        else:
+            continue            
+```
 For further details, please refer to the [Data Pre-processing](data_preprocess.md) documentation.
 
-
-## 1. Train and Test
-#### Description of important parameters
-##### Frame sparsity (Other frame sparsities are processed similarly)
-Frame sparsity represents the proportion of the test set (unavailable during training) when dividing the LiDAR dataset into training and test sets. Increased frame sparsity implies fewer LiDAR frames for training and more for model testing, posing heightened challenges across various tasks.
-
-the scirpt is coming soon ...
-
-##### γ = 2 m
-γ is a constant designed to represent the smooth transition interval on a LiDAR ray between the child NeRF free loss and the child NeRF depth loss
-see the `expand_threshold` parameter of `inference_train` function in `./nof/render.py` file.
+**(2) in train dataset load during training :**
+For example, in lines 646 to 660 of the `nof/dataset/ipb2dmapping.py` 
 ```python
+                file_path = os.path.join(self.root_dir, '{}.pcd'.format(j+1))          
+                if((self.split == 'train') and (j+1-3-self.data_start)%5!=0):          # frame sparsity = 20%   
+                # if((self.split == 'train') and (j+1-self.data_start)%4!=0):           # frame sparsity = 25%       
+                # if((self.split == 'train') and (j+1-self.data_start)%3!=0):           # frame sparsity = 33%     
+                # if((self.split == 'train') and (j+1-self.data_start)%2!=0):           # frame sparsity = 50%     
+                # if((self.split == 'train') and (j+1-1-self.data_start)%3==0):      # frame sparsity = 67%      
+                # if((self.split == 'train') and (j+1-1-self.data_start)%4==0):      # frame sparsity = 75%      
+                # if((self.split == 'train') and (j+1-3-self.data_start)%5==0):      # frame sparsity = 80%      
+                # if((self.split == 'train') and (j+1-5-self.data_start)%10==0):    # frame sparsity = 90%                          
+                    print("train file_path: ",file_path)
+                elif (self.split == 'val' and (j+1-3)%5==0):             
+                # elif (self.split == 'val' and 0 ):    # Note: More stringent conditions can be set to make the validation set empty      
+                    print("val file_path: ",file_path)          
+                else:                        
+                    continue      
+```
+**(3) in test dataset load during testing :**
+For example, in lines 1054 to 1062 of the `eval_kitti_render.py` 
+```python
+        for j in range(hparams.data_start, hparams.data_end):    
+            if((j+1-3-hparams.data_start)%5==0):                # frame sparsity = 20%
+            # if((j+1-hparams.data_start)%4==0):                 # frame sparsity = 25%         
+            # if((j+1-hparams.data_start)%3==0):                 # frame sparsity = 33%                      
+            # if((j+1-hparams.data_start)%2==0):                 # frame sparsity = 50%
+            # if((j+1-1-hparams.data_start)%3!=0):              # frame sparsity = 67%
+            # if((j+1-1-hparams.data_start)%4!=0):              # frame sparsity = 75%      
+            # if((j+1-3-hparams.data_start)%5!=0):              # frame sparsity = 80%
+            # if((j+1-5-hparams.data_start)%10!=0):            # frame sparsity = 90%
+```
+
+## Train and Test
+### Some notes
+#### Description of some important parameters
+**γ** is a constant designed to represent the smooth transition interval on a LiDAR ray between the child NeRF free loss and the child NeRF depth loss.
+**γ** is a parameter that cannot currently be adjusted by bash scripts, but can be set in bash scripts via parameter passing.
+The `expand_threshold` in `./nof/render.py` is used to adjust **γ**.
+```python
+# (line 91~99)
             for i, row in enumerate(z_vals):
                 expand_threshold = 2         #   
                 interval = near_far_child[i]
@@ -81,12 +106,34 @@ see the `expand_threshold` parameter of `inference_train` function in `./nof/ren
             weights_child = weights * mask_in_child_nerf.float()  # 
             z_vals_child= z_vals * mask_in_child_nerf.float()  #           
 ```
+#### About frame sparsity
+In the following experiments the frame sparsity is 20%, and the experiments for other frame sparsities are similar.
 
-#### KITTI 00 sequence 
-Note: 
-  (1) In the following experiments the frame sparsity is 20%, and the experiments for other frame sparsities are similar.
-  (2) In `./data/preprocessing/`,`./logs/kitti00/1151_1200_view/save_npy/split_child_nerf2_3/`,`./logs/maicity00/maicity_00_1/save_npy/split_child_nerf2_3/`,`./data_preprocess/kitti_pre_processed/sequence00/`, Part of the file exceeds the github recommended size for a single file, and will be organized and uploaded later.
-##### OriginalNeRF
+#### Data download
+In `data/preprocessing/`,`logs/kitti00/1151_1200_view/save_npy/split_child_nerf2_3/`,`logs/maicity00/maicity_00_1/save_npy/split_child_nerf2_3/`,`data_preprocess/kitti_pre_processed/sequence00/`, part of the file exceeds the github recommended size for a single file, and [the download link](https://drive.google.com/file/d/17gwXfN4BMcNc3IPA-ZUYMaLTu4gssfAH/view?usp=drive_link).
+```bash
+.
+├── data
+│   └── preprocessing
+│       ├── kitti00
+│       └── maicity00
+├── data_preprocess
+│   └── kitti_pre_processed
+│       └── sequence00
+└── logs
+    ├── kitti00
+    │   └── 1151_1200_view
+    │       └── save_npy
+    │           └── split_child_nerf2_3
+    └── maicity00
+        └── maicity_00_1
+            └── save_npy
+                └── split_child_nerf2_3
+```
+
+
+### KITTI 00 sequence 
+#### OriginalNeRF
 ```bash
 # train 
 #     epoch = 1
@@ -99,7 +146,7 @@ bash ./shells/pretraining/KITTI00_originalnerf_train.bash
 #     test_data_create = 1: recreate the test data
 bash ./shells/pretraining/KITTI00_originalnerf_eval.bash
 ```
-##### PC-NeRF
+#### PC-NeRF
 ```bash
 # train 
 #     epoch = 1
@@ -113,17 +160,17 @@ bash ./shells/pretraining/KITTI00_pcnerf_train.bash
 bash ./shells/pretraining/KITTI00_pcnerf_eval.bash
 ```
 
-##### print metrc
+#### print metrics
 ```bash
 #     inference_type: one-step: print the metric of one-step depth inference
 #     inference_type: two-step: print the metric of two-step depth inference
-#     version_id: version_0 or version_1
+#     version_id: version_0 (OriginalNeRF) or version_1 (PC-NeRF)
 cd ./logs/kitti00/1151_1200_view/render_result/
 python print_metrics.py
 ```
 
-## MaiCity 00 sequence 
-##### OriginalNeRF
+### MaiCity 00 sequence 
+#### OriginalNeRF
 ```bash
 # train 
 #     epoch = 1
@@ -137,7 +184,7 @@ bash ./shells/pretraining/MaiCity00_originalnerf_train.bash
 bash ./shells/pretraining/MaiCity00_originalnerf_eval.bash
 ```
 
-##### PC-NeRF
+#### PC-NeRF
 ```bash
 # train 
 #     epoch = 1
@@ -151,11 +198,18 @@ bash ./shells/pretraining/MaiCity00_pcnerf_train.bash
 bash ./shells/pretraining/MaiCity00_pcnerf_eval.bash
 ```
 
-##### print metrc
+#### print metrics
 ```bash
 #     inference_type: one-step: print the metric of one-step depth inference
 #     inference_type: two-step: print the metric of two-step depth inference
-#     version_id: version_0 or version_1
+#     version_id: version_0 (OriginalNeRF) or version_1 (PC-NeRF)
 cd ./logs/maicity00/maicity_00_1/render_result/
 python print_metrics.py
 ```
+
+
+## Acknowledgements
+The following codes have helped us a lot in our work.
+[nerf-pytorch](https://github.com/yenchenlin/nerf-pytorch)
+[ir-mcl ](https://github.com/PRBonn/ir-mcl)
+[shine_mapping](https://github.com/PRBonn/SHINE_mapping)
