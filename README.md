@@ -18,7 +18,7 @@
   <div align="center"></div>
 </p>
 
-Our work has been accepted and the link to the paper's publication is pending.
+Our work has been accepted by **IEEE Transactions on Intelligent Vehicles(TIV)** and the [paper link](https://ieeexplore.ieee.org/document/10438873).
 An early name for our work was: [PC-NeRF: Parent-Child Neural Radiance Fields under Partial Sensor Data Loss in Autonomous Driving Environments](https://arxiv.org/abs/2310.00874).
 The latest name for our work is: [PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous](https://arxiv.org/abs/2402.09325).
 
