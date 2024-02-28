@@ -19,8 +19,23 @@
 </p>
 
 Our work has been accepted by **IEEE Transactions on Intelligent Vehicles(TIV)** and the [paper link](https://ieeexplore.ieee.org/document/10438873).
-An early name for our work was: [PC-NeRF: Parent-Child Neural Radiance Fields under Partial Sensor Data Loss in Autonomous Driving Environments](https://arxiv.org/abs/2310.00874).
-The latest name for our work is: [PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous](https://arxiv.org/abs/2402.09325).
+
+An early version for our work was: [PC-NeRF: Parent-Child Neural Radiance Fields under Partial Sensor Data Loss in Autonomous Driving Environments](https://arxiv.org/abs/2310.00874).
+
+The latest version on arxiv for our work is: [PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous](https://arxiv.org/abs/2402.09325).
+
+```bash
+@ARTICLE{10438873,
+  author={Hu, Xiuzhong and Xiong, Guangming and Zang, Zheng and Jia, Peng and Han, Yuxuan and Ma, Junyi},
+  journal={IEEE Transactions on Intelligent Vehicles}, 
+  title={PC-NeRF: Parent-Child Neural Radiance Fields Using Sparse LiDAR Frames in Autonomous Driving Environments}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={1-14},
+  keywords={Laser radar;Three-dimensional displays;Robot sensing systems;Point cloud compression;Autonomous vehicles;Image reconstruction;Training;Neural Radiance Fields;3D Scene Reconstruction;Autonomous Driving},
+  doi={10.1109/TIV.2024.3366657}}
+```
 
 [TOC]
 ## Paper
