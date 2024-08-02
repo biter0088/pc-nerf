@@ -145,7 +145,20 @@ In `data/preprocessing/`,`logs/kitti00/1151_1200_view/save_npy/split_child_nerf2
             └── save_npy
                 └── split_child_nerf2_3
 ```
+### Install
 
+```bash
+conda create -n pcnerf python=3.9.13
+conda activate pcnerf
+
+conda install -c conda-forge pybind11
+# RTX3090
+conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.3 -c pytorch 
+
+pip install pytorch-lightning tensorboardX 
+pip install matplotlib scipy open3d
+pip install evo --upgrade --no-binary evo
+```
 
 ### KITTI 00 sequence 
 #### OriginalNeRF
